@@ -2,11 +2,14 @@
   "name": "designpick",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "prebuild": "node scripts/generate-icons.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "zip": "node scripts/zip-dist.mjs",
+    "package": "npm run build && npm run zip"
   },
   "dependencies": {
     "react": "^18.3.1",

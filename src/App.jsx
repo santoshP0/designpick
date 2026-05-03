@@ -13,6 +13,7 @@ export default function App() {
     setError(null);
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (!tab?.id) throw new Error('No active tab found. Please try again.');
       const results = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: extractDesignTokens,
