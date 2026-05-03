@@ -2,14 +2,16 @@
   "manifest_version": 3,
   "name": "DesignPick",
   "version": "1.0.0",
-  "description": "Extract design tokens from any webpage — colors, fonts, CSS variables, radii, and shadows.",
+  "description": "Extract design tokens from any webpage — CSS variables, colors, fonts, radii, and shadows. Export as CSS, JSON, or Figma Tokens.",
+  "minimum_chrome_version": "88",
+  "homepage_url": "https://github.com/santoshP0/designpick",
   "permissions": [
     "activeTab",
-    "scripting",
-    "tabs"
+    "scripting"
   ],
   "action": {
     "default_popup": "popup.html",
+    "default_title": "DesignPick — Extract design tokens",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",

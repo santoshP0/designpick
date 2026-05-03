@@ -5,6 +5,7 @@ const HEX_RE = /^#[0-9a-fA-F]{3,8}$/;
 export default function TokenSection({ title, items, type }) {
   const [open, setOpen] = useState(true);
   const [copied, setCopied] = useState(null);
+  const [copiedAll, setCopiedAll] = useState(false);
 
   function copy(value) {
     navigator.clipboard.writeText(value);
@@ -12,13 +13,27 @@ export default function TokenSection({ title, items, type }) {
     setTimeout(() => setCopied(null), 1400);
   }
 
+  function copyAll() {
+    const text = items
+      .map(({ label, value }) => (type === 'variable' ? `${label}: ${value}` : value))
+      .join('\n');
+    navigator.clipboard.writeText(text);
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 1400);
+  }
+
   return (
     <section className="token-section">
-      <button className="section-header" onClick={() => setOpen(o => !o)}>
-        <span className="section-title">{title}</span>
-        <span className="section-badge">{items.length}</span>
-        <span className={`section-chevron${open ? ' open' : ''}`}>›</span>
-      </button>
+      <div className="section-header">
+        <button className="section-toggle" onClick={() => setOpen(o => !o)}>
+          <span className="section-title">{title}</span>
+          <span className="section-badge">{items.length}</span>
+          <span className={`section-chevron${open ? ' open' : ''}`}>›</span>
+        </button>
+        <button className="section-copy-all" onClick={copyAll} title="Copy all values">
+          {copiedAll ? '✓' : 'copy all'}
+        </button>
+      </div>
 
       {open && (
         <div className={`section-body${type === 'color' ? ' color-grid' : ' token-list'}`}>

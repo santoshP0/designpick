@@ -20,7 +20,8 @@ function toCSS(tokens) {
 }
 
 function toJSON(tokens) {
-  return JSON.stringify(tokens, null, 2);
+  const { meta, ...rest } = tokens;
+  return JSON.stringify(rest, null, 2);
 }
 
 function toFigma(tokens) {
@@ -77,13 +78,11 @@ export default function ExportPanel({ tokens }) {
 
   function handleDownload() {
     const ext = format === 'css' ? 'css' : 'json';
+    const host = tokens.meta?.hostname;
+    const filename = host ? `${host}-design-tokens.${ext}` : `design-tokens.${ext}`;
     const blob = new Blob([content()], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement('a'), {
-      href: url,
-      download: `design-tokens.${ext}`,
-    });
-    a.click();
+    Object.assign(document.createElement('a'), { href: url, download: filename }).click();
     URL.revokeObjectURL(url);
   }
 

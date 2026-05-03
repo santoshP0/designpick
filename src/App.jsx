@@ -20,25 +20,31 @@ export default function App() {
       setTokens(results[0].result);
     } catch (err) {
       const msg = err.message || '';
-      if (msg.includes('Cannot access') || msg.includes('chrome://')) {
-        setError("Can't access this page. Try a regular website.");
-      } else {
-        setError(msg || 'Failed to extract tokens.');
-      }
+      setError(
+        msg.includes('Cannot access') || msg.includes('chrome://')
+          ? "Can't access this page. Try a regular website."
+          : msg || 'Failed to extract tokens.'
+      );
     } finally {
       setLoading(false);
     }
   }
 
-  const cssVarCount = tokens ? Object.keys(tokens.cssVariables).length : 0;
-  const hasTokens = tokens && (
-    cssVarCount > 0 ||
-    tokens.colors.length > 0 ||
-    tokens.typography.fontFamilies.length > 0 ||
-    tokens.typography.fontSizes.length > 0 ||
-    tokens.radii.length > 0 ||
-    tokens.shadows.length > 0
-  );
+  function handleClear() {
+    setTokens(null);
+    setError(null);
+  }
+
+  const hostname = tokens?.meta?.hostname || '';
+  const totalCount = tokens
+    ? Object.keys(tokens.cssVariables).length
+      + tokens.colors.length
+      + tokens.typography.fontFamilies.length
+      + tokens.typography.fontSizes.length
+      + tokens.radii.length
+      + tokens.shadows.length
+    : 0;
+  const hasTokens = totalCount > 0;
 
   return (
     <div className="app">
@@ -46,14 +52,23 @@ export default function App() {
         <div className="app-logo">
           <span className="logo-ring" />
         </div>
-        <h1>DesignPick</h1>
-        <span className="app-tagline">design token extractor</span>
+        <div className="header-text">
+          <h1>DesignPick</h1>
+          <span className="header-sub">{hostname || 'design token extractor'}</span>
+        </div>
+        {tokens && (
+          <div className="header-actions">
+            <span className="header-count">{totalCount} tokens</span>
+            <button className="header-clear" onClick={handleClear} title="Clear results">×</button>
+          </div>
+        )}
       </header>
 
       <main className="app-main">
         {!tokens && !loading && !error && (
           <div className="empty-state">
-            <p>Open any webpage and click <strong>Extract Tokens</strong> to scrape its design tokens.</p>
+            <div className="empty-icon">⬡</div>
+            <p>Navigate to any webpage and click <strong>Extract Tokens</strong> to pull its design tokens.</p>
           </div>
         )}
 
@@ -67,7 +82,7 @@ export default function App() {
 
         {tokens && hasTokens && (
           <>
-            {cssVarCount > 0 && (
+            {Object.keys(tokens.cssVariables).length > 0 && (
               <TokenSection
                 title="CSS Variables"
                 items={Object.entries(tokens.cssVariables).map(([k, v]) => ({ label: k, value: v }))}

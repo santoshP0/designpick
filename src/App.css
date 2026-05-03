@@ -51,7 +51,7 @@ body {
 .app-header {
   background: var(--accent);
   color: #fff;
-  padding: 10px 14px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -59,8 +59,8 @@ body {
 }
 
 .app-logo {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   background: rgba(255 255 255 / 0.2);
   border-radius: 50%;
   display: flex;
@@ -70,24 +70,72 @@ body {
 }
 
 .logo-ring {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border: 2.5px solid #fff;
   border-radius: 50%;
   display: block;
 }
 
-.app-header h1 {
+/* Title + sub stacked */
+.header-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.header-text h1 {
   font-size: 14px;
   font-weight: 700;
   letter-spacing: -0.2px;
+  line-height: 1.2;
 }
 
-.app-tagline {
-  margin-left: auto;
+.header-sub {
   font-size: 10px;
   opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Count badge + clear button */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.header-count {
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(255 255 255 / 0.22);
+  padding: 2px 7px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+.header-clear {
+  background: rgba(255 255 255 / 0.18);
+  border: none;
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.header-clear:hover {
+  background: rgba(255 255 255 / 0.32);
 }
 
 /* ── Scrollable main ── */
@@ -102,10 +150,16 @@ body {
 
 /* ── States ── */
 .empty-state {
-  padding: 28px 16px;
+  padding: 32px 20px;
   text-align: center;
   color: var(--text-2);
   line-height: 1.6;
+}
+
+.empty-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+  opacity: 0.35;
 }
 
 .empty-state strong {
@@ -129,11 +183,19 @@ body {
   overflow: hidden;
 }
 
+/* Section header row: toggle button + copy-all button side by side */
 .section-header {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid transparent; /* fills in when expanded via JS */
+}
+
+.section-toggle {
+  flex: 1;
+  min-width: 0;
   background: none;
   border: none;
-  padding: 7px 10px;
+  padding: 7px 6px 7px 10px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -142,15 +204,18 @@ body {
   font-weight: 600;
   color: var(--text);
   text-align: left;
-  user-select: none;
 }
 
-.section-header:hover {
+.section-toggle:hover {
   background: var(--bg);
 }
 
 .section-title {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .section-badge {
@@ -162,6 +227,7 @@ body {
   border-radius: 9px;
   min-width: 18px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .section-chevron {
@@ -170,10 +236,31 @@ body {
   line-height: 1;
   transition: transform 0.18s ease;
   display: inline-block;
+  flex-shrink: 0;
 }
 
 .section-chevron.open {
   transform: rotate(90deg);
+}
+
+.section-copy-all {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 0 10px;
+  height: 32px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.12s, background 0.12s;
+}
+
+.section-copy-all:hover {
+  background: var(--bg);
+  color: var(--accent);
 }
 
 .section-body {
@@ -279,7 +366,6 @@ body {
   height: 14px;
   border-radius: 3px;
   border: 1px solid rgba(0 0 0 / 0.1);
-  flex-shrink: 0;
 }
 
 .token-label {
@@ -302,7 +388,7 @@ body {
   flex-shrink: 0;
 }
 
-/* ── Copied indicator ── */
+/* ── Copied indicators ── */
 .copied-tick {
   color: var(--green);
   font-size: 10px;
@@ -350,7 +436,7 @@ body {
   font-size: 10px;
   line-height: 1.55;
   padding: 8px;
-  max-height: 110px;
+  max-height: 120px;
   overflow-y: auto;
   background: #f8f9fc;
   color: var(--text);
@@ -372,7 +458,7 @@ body {
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.12s;
 }
 
 .export-btn.copy {
