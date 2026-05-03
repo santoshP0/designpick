@@ -186,8 +186,7 @@ body {
 /* Section header row: toggle button + copy-all button side by side */
 .section-header {
   display: flex;
-  align-items: center;
-  border-bottom: 1px solid transparent; /* fills in when expanded via JS */
+  align-items: stretch;
 }
 
 .section-toggle {
@@ -198,6 +197,7 @@ body {
   padding: 7px 6px 7px 10px;
   display: flex;
   align-items: center;
+  align-self: center;
   gap: 6px;
   cursor: pointer;
   font-size: 11px;
@@ -252,7 +252,7 @@ body {
   color: var(--text-3);
   cursor: pointer;
   padding: 0 10px;
-  height: 32px;
+  align-self: stretch;
   white-space: nowrap;
   flex-shrink: 0;
   transition: color 0.12s, background 0.12s;

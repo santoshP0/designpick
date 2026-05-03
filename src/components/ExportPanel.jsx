@@ -82,8 +82,13 @@ export default function ExportPanel({ tokens }) {
     const filename = host ? `${host}-design-tokens.${ext}` : `design-tokens.${ext}`;
     const blob = new Blob([content()], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    Object.assign(document.createElement('a'), { href: url, download: filename }).click();
-    URL.revokeObjectURL(url);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 100);
   }
 
   return (
